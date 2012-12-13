@@ -1,0 +1,11 @@
+
+h1. Installation
+
+python-tickit requires the following:
+
+* "tickit":http://home.leonerd.org.uk/code/libtickit/ via "bzr":http://bazaar.leonerd.org.uk/c/libtickit/, revision 139 or newer.
+
+h1. Usage
+
+For the most part, python-tickit mirrors the "Perl Tickit":https://metacpan.org/module/Tickit APIs for "Tickit::Term":https://metacpan.org/module/Tickit::Term, "Tickit::Pen":https://metacpan.org/module/Tickit::Pen, and "Tickit::StringPos":https://metacpan.org/module/Tickit::StringPos.
+
