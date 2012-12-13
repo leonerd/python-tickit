@@ -141,14 +141,14 @@ class Pen(MutableMapping):
         return other
 
 class Attribute:
-    fg     = tickit.TICKIT_PEN_FG
-    bg     = tickit.TICKIT_PEN_BG
-    b      = tickit.TICKIT_PEN_BOLD
-    u      = tickit.TICKIT_PEN_UNDER
-    i      = tickit.TICKIT_PEN_ITALIC
-    rv     = tickit.TICKIT_PEN_REVERSE
-    af     = tickit.TICKIT_PEN_ALTFONT
-    strike = tickit.TICKIT_PEN_STRIKE
+    fg     = 'fg'     # tickit.TICKIT_PEN_FG
+    bg     = 'bg'     # tickit.TICKIT_PEN_BG
+    b      = 'b'      # tickit.TICKIT_PEN_BOLD
+    u      = 'u'      # tickit.TICKIT_PEN_UNDER
+    i      = 'i'      # tickit.TICKIT_PEN_ITALIC
+    rv     = 'rv'     # tickit.TICKIT_PEN_REVERSE
+    af     = 'af'     # tickit.TICKIT_PEN_ALTFONT
+    strike = 'strike' # tickit.TICKIT_PEN_STRIKE
 
 class AttributeType:
     color = colour = tickit.TICKIT_PENTYPE_COLOUR
