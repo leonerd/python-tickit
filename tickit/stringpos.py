@@ -56,4 +56,9 @@ class StringPos(tickit.TickitStringPos):
     def columns(self):
         return self.columns
 
+def string_count(string, pos, limit):
+    return ctickit.tickit_string_count(string, pos, limit)
+
+def string_countmore(string, pos, limit):
+    return ctickit.tickit_string_countmore(string, pos, limit)
 
