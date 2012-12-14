@@ -160,10 +160,12 @@ class Term:
         ctickit.tickit_term_set_size(self._term, lines, cols)
 
     def get_size(self):
-        lines = c_int()
-        cols  = c_int()
-        ctickit.tickit_term_get_size(self._term, byref(lines), byref(cols))
-        return (lines, cols)
+        lines = ctypes.c_int()
+        cols  = ctypes.c_int()
+        ctickit.tickit_term_get_size(
+            self._term, ctypes.byref(lines), ctypes.byref(cols)
+        )
+        return (lines.value, cols.value)
 
     @property
     def lines(self):

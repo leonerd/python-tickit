@@ -17,5 +17,5 @@ MouseEventType = tickit.event.MouseEventType
 MouseWheel     = tickit.event.MouseWheel
 
 string_count     = tickit.stringpos.string_count
-string_countmore = tickit.stringpost.string_countmore
+string_countmore = tickit.stringpos.string_countmore
 
