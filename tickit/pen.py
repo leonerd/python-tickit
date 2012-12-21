@@ -23,7 +23,7 @@ class Pen(MutableMapping):
         self._pen = ctickit.tickit_pen_new()
         self._attrs = {}
 
-        self._changed = {}
+        self._events = {}
 
         self.setattrs(kwargs)
 
@@ -135,28 +135,41 @@ class Pen(MutableMapping):
         else:
             self.delattr(name)
 
-    def add_on_changed(self, obj, id):
+    def _wrap_handler(self, func, data):
+        def handler(rawpen, type, event, rawdata):
+            args = event.contents
+
+            func(self, type, args, data)
+
+        return tickit.TickitPenEventFn(handler)
+
+    def add_on_changed(self, func, event, data):
         """Adds an event handler for Pen events.
 
-        Note that the event object must implement the callable interface as a
-        function which takes a Pen, an EventType, a list of Event arguments,
-        and the ID passed to this method.
+        The provided function must take four arguments: the pen object, the
+        event type (as a string), the event arguments (as a TickitEvent
+        object), and user data (anything).
         """
-        if not hasattr(obj, '__call__'):
-            raise TypeError('event handler must be callable')
+        if event not in self._events:
+            self._events[event] = []
 
-        self._changed.append((obj, id))
+        func = self._wrap_handler(func, data)
+        id = ctickit.tickit_bind_event(self._pen, event, func, None)
 
-        ctickit.tickit_pen_bind_event(self._pen, obj.event_type, obj, id)
+        self._events[event].append((func, id))
 
-    def remove_on_changed(self, obj):
-        for item in self._changed:
-            if item[0] is obj:
-                self._changed.remove((obj, item[1]))
-                id = item[1]
-                break
+        return id
 
-        ctickit.tickit_pen_unbind_event(self._pen, id)
+    def remove_on_changed(self, id):
+        """Removes the event handler with the specified id."""
+        for event in self._events.keys():
+            for handler in self._events[event]:
+                if handler[1] == id:
+                    ctickit.tickit_pen_unbind_event_id(self._pen, id)
+                    self._events[event].remove(handler)
+                    return
+
+        raise KeyError('unknown handler id')
 
     def __copy__(self):
         other = Pen()
