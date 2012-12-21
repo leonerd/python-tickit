@@ -37,6 +37,10 @@ class Pen(MutableMapping):
         return self.hasattr(name)
 
     def hasattr(self, name):
+        """Returns True if the pen has the requested attribute.
+
+        Raises KeyError for invalid attributes.
+        """
         attr = lookup_attr(name)
         if attr == -1:
             raise KeyError('invalid attribute')
@@ -44,12 +48,17 @@ class Pen(MutableMapping):
         return ctickit.tickit_pen_has_attr(self._pen, attr)
 
     def getattrs(self):
+        """Returns a dict of the currently-set attributes."""
         return dict(self._attrs)
 
     def __getitem__(self, name):
         return self.getattr(name)
 
     def getattr(self, name):
+        """Returns the requested attribute value.
+
+        Raises KeyError for invalid attributes.
+        """
         attr = lookup_attr(name)
         if attr == -1:
             raise KeyError('invalid attribute')
@@ -64,6 +73,7 @@ class Pen(MutableMapping):
         return func(self._pen, attr)
 
     def setattrs(self, attrs):
+        """Sets attributes against the given dict."""
         for k, v in attrs:
             self.setattr(k, v)
 
@@ -71,6 +81,10 @@ class Pen(MutableMapping):
         self.setattr(name, value)
 
     def setattr(self, name, value):
+        """Sets an attribute with the given value.
+
+        Raises KeyError for invalid attributes.
+        """
         attr = lookup_attr(name)
         if attr == -1:
             raise KeyError('invalid attribute')
@@ -90,6 +104,7 @@ class Pen(MutableMapping):
         self.delattr(name)
 
     def delattr(self, name):
+        """Deletes the specified attribute."""
         attr = lookup_attr(name)
         if attr == -1:
             raise KeyError('invalid attribute')
@@ -99,10 +114,18 @@ class Pen(MutableMapping):
         ctickit.tickit_pen_clear_attr(self._pen, attr)
 
     def chattrs(self, attrs):
+        """Changes attributes from the given dict."""
         for k, v in attrs:
             self.chattr(k, v)
 
     def chattr(self, name, value=None):
+        """Changes an attribute to the given value.
+
+        If no value is given or if the given value is None, deletes the
+        attribute instead.
+
+        Raises KeyError on invalid attributes.
+        """
         attr = lookup_attr(name)
         if attr == -1:
             raise KeyError('invalid attribute')
