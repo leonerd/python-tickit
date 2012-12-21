@@ -19,7 +19,7 @@ ctickit.tickit_pen_bind_event.argtypes = (
     POINTER(tickit.TickitPen),
     tickit.TickitEventType,
     tickit.TickitPenEventFn,
-    py_object
+    c_void_p
 )
 
 ctickit.tickit_pen_unbind_event_id.restype = None
