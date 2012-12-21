@@ -281,9 +281,22 @@ class Term:
 
     def setctl(self, ctl, state=True):
         """Set the requested terminal control variable to the given state."""
-        ctickit.tickit_term_setctl_int(
-            self._term, ctl, state
-        )
+        if TermControl.is_text(ctl):
+            if state is True:
+                raise ValueError('non-text value for text control')
+
+            if self._utf8:
+                if not isinstance(state, basestring):
+                    state = bytes(str(state), 'UTF-8')
+                elif isinstance(state, str):
+                    state = bytes(state, 'UTF-8')
+            else:
+                if not isinstance(state, bytes):
+                    raise ValueError('Unicode not supported')
+
+            ctickit.tickit_term_setctl_str(self._term, ctl, state)
+        else:
+            ctickit.tickit_term_setctl_int(self._term, ctl, state)
 
     def input_push_bytes(self, seq):
         """Push the given sequence of bytes into input.
@@ -329,6 +342,16 @@ class TermControl:
     keypad_app     = tickit.TICKIT_TERMCTL_KEYPAD_APP
     mouse          = tickit.TICKIT_TERMCTL_MOUSE
     title_text     = tickit.TICKIT_TERMCTL_TITLE_TEXT
+
+    @staticmethod
+    def is_text(ctl):
+        if ctl in (
+                TermControl.icon_text,
+                TermControl.icontitle_text,
+                TermControl.title_text
+            ):
+            return True
+        return False
 
 class CursorShape:
     block    = tickit.TICKIT_TERM_CURSORSHAPE_BLOCK

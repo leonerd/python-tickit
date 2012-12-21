@@ -278,5 +278,10 @@ ctickit.tickit_term_setctl_int.argtypes = (
     POINTER(tickit.TickitTerm), tickit.TickitTermCtl, c_int
 )
 
+ctickit.tickit_term_setctl_str.restype = c_int
+ctickit.tickit_term_setctl_str.argtypes = (
+    POINTER(ctickit.TickitTerm), tickit.TickitTermCtl, c_char_p
+)
+
 __all__ = ['tickit', 'ctickit']
 
