@@ -1,11 +1,20 @@
 
 h1. Installation
 
-python-tickit requires the following:
+@python-tickit@ requires the following:
 
-* "tickit":http://home.leonerd.org.uk/code/libtickit/ via "bzr":http://bazaar.leonerd.org.uk/c/libtickit/, revision 139 or newer.
+* "tickit":http://home.leonerd.org.uk/code/libtickit/ via "bzr":http://bazaar.leonerd.org.uk/c/libtickit/, revision 145 or newer.
+* "Python 3.2":http://www.python.org or higher.
 
 h1. Usage
 
-For the most part, python-tickit mirrors the "Perl Tickit":https://metacpan.org/module/Tickit APIs for "Tickit::Term":https://metacpan.org/module/Tickit::Term, "Tickit::Pen":https://metacpan.org/module/Tickit::Pen, and "Tickit::StringPos":https://metacpan.org/module/Tickit::StringPos.
+@python-tickit@ mirrors the Perl "Tickit":https://metacpan.org/module/Tickit APIs where possible. The following APIs are mirrored:
+
+* "Tickit::Pen":https://metacpan.org/module/Tickit::Pen, as a MutableMapping subclass.
+* "Tickit::Rect":https://metacpan.org/module/Tickit::Rect, as a Container subclass.
+* "Tickit::StringPos":https://metacpan.org/module/Tickit::StringPos.
+* "Tickit::Term":https://metacpan.org/module/Tickit::Term.
+
+Please refer to the relevant "@collections.abc@:"http://docs.python.org/3/library/collections.abc.html documentation for Python ABC subclasses.
+
 
