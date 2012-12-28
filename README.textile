@@ -6,13 +6,20 @@ h1. Installation
 * "tickit":http://home.leonerd.org.uk/code/libtickit/ via "bzr":http://bazaar.leonerd.org.uk/c/libtickit/, revision 145 or newer.
 * "Python 3.2":http://www.python.org or higher.
 
+Additionally, if you wish to assist in developing @python-tickit@, you will also need:
+
+* "@python-ctypeslib@":http://pypi.python.org/pypi/ctypeslib/ and
+* "GCC-XML":http://www.gccxml.org/HTML/Index.html. (needed by @python-ctypeslib@)
+
+In particular, @h2xml@ and @xml2py@ (provided by @python-ctypeslib@) are used to generate @tickit._tickit@ to avoid errors caused by manual generation of e.g. enums.
+
 h1. Usage
 
 @python-tickit@ mirrors the Perl "Tickit":https://metacpan.org/module/Tickit APIs where possible. The following APIs are mirrored:
 
-* "Tickit::Pen":https://metacpan.org/module/Tickit::Pen, as a MutableMapping subclass.
-* "Tickit::Rect":https://metacpan.org/module/Tickit::Rect, as a Container subclass.
-* "Tickit::StringPos":https://metacpan.org/module/Tickit::StringPos.
+* "Tickit::Pen":https://metacpan.org/module/Tickit::Pen, as a MutableMapping subclass;
+* "Tickit::Rect":https://metacpan.org/module/Tickit::Rect, as a Container subclass;
+* "Tickit::StringPos":https://metacpan.org/module/Tickit::StringPos; and
 * "Tickit::Term":https://metacpan.org/module/Tickit::Term.
 
 Please refer to the relevant "@collections.abc@:"http://docs.python.org/3/library/collections.abc.html documentation for Python ABC subclasses.
