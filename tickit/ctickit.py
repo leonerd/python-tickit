@@ -131,6 +131,53 @@ ctickit.tickit_pen_new.argtypes = ()
 ctickit.tickit_pen_destroy.restype = None
 ctickit.tickit_pen_destroy.argtypes = (POINTER(tickit.TickitPen),)
 
+ctickit.tickit_rect_add.restype = c_int
+ctickit.tickit_rect_add.argtypes = (
+    tickit.TickitRect * 3,
+    POINTER(tickit.TickitRect),
+    POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rect_bottom.restype = c_int
+ctickit.tickit_rect_bottom.argtypes = (POINTER(tickit.TickitRect),)
+
+ctickit.tickit_rect_right.restype = c_int
+ctickit.tickit_rect_right.argtypes = (POINTER(tickit.TickitRect),)
+
+ctickit.tickit_rect_contains.restype = c_int
+ctickit.tickit_rect_contains.argtype = (
+    POINTER(tickit.TickitRect),
+    POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rect_init_bounded.restype = None
+ctickit.tickit_rect_init_bounded.argtypes = (
+    POINTER(tickit.TickitRect), c_int, c_int, c_int, c_int
+)
+
+ctickit.tickit_rect_init_sized.restype = None
+ctickit.tickit_rect_init_sized.argtypes = (
+    POINTER(tickit.TickitRect), c_int, c_int, c_int, c_int
+)
+
+ctickit.tickit_rect_intersect.restype = c_int
+ctickit.tickit_rect_intersect.argtypes = (
+    POINTER(tickit.TickitRect), POINTER(tickit.TickitRect),
+    POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rect_intersects.restype = c_int
+ctickit.tickit_rect_intersects.argtypes = (
+    POINTER(tickit.TickitRect), POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rect_subtract.restype = c_int
+ctickit.tickit_rect_subtract.argtypes = (
+    tickit.TickitRect * 4,
+    POINTER(tickit.TickitRect),
+    POINTER(tickit.TickitRect)
+)
+
 ctickit.tickit_string_count.restype = c_size_t
 ctickit.tickit_string_count.argtypes = (
     c_char_p, POINTER(tickit.TickitStringPos), POINTER(tickit.TickitStringPos)
