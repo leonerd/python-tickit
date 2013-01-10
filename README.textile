@@ -3,7 +3,7 @@ h1. Installation
 
 @python-tickit@ requires the following:
 
-* "tickit":http://home.leonerd.org.uk/code/libtickit/ via "bzr":http://bazaar.leonerd.org.uk/c/libtickit/, revision 145 or newer.
+* "tickit":http://home.leonerd.org.uk/code/libtickit/ via "bzr":http://bazaar.leonerd.org.uk/c/libtickit/, revision 154 or newer.
 * "Python 3.2":http://www.python.org or higher.
 
 Additionally, if you wish to assist in developing @python-tickit@, you will also need:
@@ -19,6 +19,7 @@ h1. Usage
 
 * "Tickit::Pen":https://metacpan.org/module/Tickit::Pen, as a MutableMapping subclass;
 * "Tickit::Rect":https://metacpan.org/module/Tickit::Rect, as a Container subclass;
+* "Tickit::RectSet":http://metacpan.org/module/Tickit::Rect, as a MutableSet subclass;
 * "Tickit::StringPos":https://metacpan.org/module/Tickit::StringPos; and
 * "Tickit::Term":https://metacpan.org/module/Tickit::Term.
 
