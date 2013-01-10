@@ -5,8 +5,7 @@ from ctypes import *
 from ctypes.util import find_library
 import tickit._tickit as tickit
 
-if sys.platform.startswith('linux'):
-    ctickit = CDLL('libtickit.so.0')
+ctickit = CDLL(find_library('tickit'))
 
 ctickit.tickit_pen_attrname.restype = c_char_p
 ctickit.tickit_pen_attrname.argtypes = (tickit.TickitPenAttr,)
@@ -176,6 +175,49 @@ ctickit.tickit_rect_subtract.argtypes = (
     tickit.TickitRect * 4,
     POINTER(tickit.TickitRect),
     POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rectset_add.restype = None
+ctickit.tickit_rectset_add.argtypes = (
+    POINTER(tickit.TickitRectSet), POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rectset_clear.restype = None
+ctickit.tickit_rectset_clear.argtypes = (
+    POINTER(tickit.TickitRectSet),
+)
+
+ctickit.tickit_rectset_contains.restype = c_int
+ctickit.tickit_rectset_contains.argtypes = (
+    POINTER(tickit.TickitRectSet), POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rectset_destroy.restype = None
+ctickit.tickit_rectset_destroy.argtypes = (
+    POINTER(tickit.TickitRectSet),
+)
+
+ctickit.tickit_rectset_get_rects.restype = c_int
+ctickit.tickit_rectset_get_rects.argtypes = (
+    POINTER(tickit.TickitRectSet), POINTER(tickit.TickitRect), c_size_t
+)
+
+ctickit.tickit_rectset_intersects.restype = c_int
+ctickit.tickit_rectset_intersects.argtypes = (
+    POINTER(tickit.TickitRectSet), POINTER(tickit.TickitRect)
+)
+
+ctickit.tickit_rectset_new.restype = POINTER(tickit.TickitRectSet)
+ctickit.tickit_rectset_new.argtypes = (None,)
+
+ctickit.tickit_rectset_rects.restype = c_int
+ctickit.tickit_rectset_rects.argtypes = (
+    POINTER(tickit.TickitRectSet)
+)
+
+ctickit.tickit_rectset_subtract.restype = None
+ctickit.tickit_rectset_subtract.argtypes = (
+    POINTER(tickit.TickitRectSet), POINTER(tickit.TickitRect)
 )
 
 ctickit.tickit_string_count.restype = c_size_t
