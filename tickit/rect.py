@@ -1,7 +1,10 @@
 
 import ctypes
 
-from collections.abc import Container
+try:
+    from collections.abc import Container
+except ImportError:
+    from collections import Container
 
 from tickit.ctickit import *
 

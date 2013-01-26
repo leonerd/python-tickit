@@ -4,7 +4,13 @@ import io
 import os
 import sys
 
+try:
+    from collections.abc import Sequence
+except ImportError:
+    from collections import Sequence
+
 import tickit.pen as pen
+import tickit.event as event
 from tickit.ctickit import *
 
 class Term:
@@ -18,6 +24,8 @@ class Term:
     they're wrapped for Python callbacks.
     """
     def __init__(self, **kwargs):
+        self._ids = []
+        self._handlers = []
         if 'struct' in kwargs:
             self._term = kwargs['struct']
 
@@ -126,6 +134,47 @@ class Term:
             func(self, type, args, data)
 
         return tickit.TickitTermEventFn(handler)
+
+    def _wrap(self, func, userdata):
+        def handler(term, type, event, data):
+            args = event.contents
+
+            func(self, type, args, userdata)
+
+        return tickit.TickitTermEventFn(handler)
+
+    def bind_event(self, events, func, userdata=None):
+        """Bind a function to an event or sequence of events.
+
+        Unlike the on_* properties, events bound via this method can have
+        userdata established at binding time. Note, however, that the existence
+        of the on_* properties is tied to that of the equivalent Tickit::Term
+        mechanism.
+        """
+        if isinstance(events, Sequence) and not isinstance(events, str):
+            for event in events:
+                self.bind_event(event, func, userdata)
+        else:
+            if isinstance(events, str):
+                events = getattr(event.EventType, events, None)
+
+                if events is None:
+                    raise KeyError(events)
+
+            self._handlers.append(self._wrap(func, userdata))
+
+            self._ids.append(ctickit.tickit_term_bind_event(
+                self._term, events, self._handlers[-1], None
+            ))
+
+    def unbind_event_id(self, id):
+        """Unbind an event handler by its ID."""
+        if id in self._ids:
+            ctickit.tickit_term_unbind_event_id(id)
+            self._handlers.pop(self._ids.index(id))
+            self._ids.remove(id)
+        else:
+            raise ValueError(id)
 
     @property
     def on_resize(self):

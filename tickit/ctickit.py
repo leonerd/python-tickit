@@ -137,12 +137,6 @@ ctickit.tickit_rect_add.argtypes = (
     POINTER(tickit.TickitRect)
 )
 
-ctickit.tickit_rect_bottom.restype = c_int
-ctickit.tickit_rect_bottom.argtypes = (POINTER(tickit.TickitRect),)
-
-ctickit.tickit_rect_right.restype = c_int
-ctickit.tickit_rect_right.argtypes = (POINTER(tickit.TickitRect),)
-
 ctickit.tickit_rect_contains.restype = c_int
 ctickit.tickit_rect_contains.argtype = (
     POINTER(tickit.TickitRect),
@@ -208,11 +202,11 @@ ctickit.tickit_rectset_intersects.argtypes = (
 )
 
 ctickit.tickit_rectset_new.restype = POINTER(tickit.TickitRectSet)
-ctickit.tickit_rectset_new.argtypes = (None,)
+ctickit.tickit_rectset_new.argtypes = ()
 
 ctickit.tickit_rectset_rects.restype = c_int
 ctickit.tickit_rectset_rects.argtypes = (
-    POINTER(tickit.TickitRectSet)
+    POINTER(tickit.TickitRectSet),
 )
 
 ctickit.tickit_rectset_subtract.restype = None
