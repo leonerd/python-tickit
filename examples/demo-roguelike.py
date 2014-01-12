@@ -33,7 +33,7 @@ class Talon:
         self.player_y = int(self.rows / 2)
         self.grid[self.player_y][self.player_x].player = True
 
-        self.term.bind_event(tickit.EventType.key, self.input(), None)
+        self.term.bind_event(['key'], self.input(), None)
         #self.term.on_key = self.input()
 
         self.term.clear()

@@ -152,8 +152,18 @@ class Term:
         mechanism.
         """
         if isinstance(events, Sequence) and not isinstance(events, str):
-            for event in events:
-                self.bind_event(event, func, userdata)
+            enum = []
+            for event_ in events:
+                if getattr(event.EventType, event_, None) is not None:
+                    enum.append(getattr(event.EventType, event_))
+                elif isinstance(event_, int):
+                    enum.append(event_)
+                else:
+                    raise KeyError(event_)
+
+            events = 0
+            for ev in enum:
+                events &= ev
         else:
             if isinstance(events, str):
                 events = getattr(event.EventType, events, None)
