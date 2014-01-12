@@ -23,6 +23,6 @@ h1. Usage
 * "Tickit::StringPos":https://metacpan.org/module/Tickit::StringPos; and
 * "Tickit::Term":https://metacpan.org/module/Tickit::Term.
 
-Please refer to the relevant "@collections.abc@:"http://docs.python.org/3/library/collections.abc.html documentation for Python ABC subclasses.
+Please refer to the relevant "@collections.abc@":http://docs.python.org/3/library/collections.abc.html documentation for Python ABC subclasses.
 
 
