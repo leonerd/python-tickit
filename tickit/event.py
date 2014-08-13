@@ -1,5 +1,5 @@
 
-from tickit.ctickit import tickit
+import tickit._tickit as tickit
 
 class EventType:
     resize = tickit.TICKIT_EV_RESIZE

@@ -11,7 +11,8 @@ except ImportError:
 
 import tickit.pen as pen
 import tickit.event as event
-from tickit.ctickit import *
+
+import tickit._tickit as tickit
 
 class Term:
     """A representation of an interactive terminal.
@@ -30,15 +31,15 @@ class Term:
             self._term = kwargs['struct']
 
         if 'terminal' in kwargs:
-            self._term = ctickit.tickit_term_new_for_termtype(
+            self._term = tickit.tickit_term_new_for_termtype(
                 kwargs['terminal']
             )
         if getattr(self, '_term', None) is None:
-            self._term = ctickit.tickit_term_new()
+            self._term = tickit.tickit_term_new()
 
         if 'utf8' in kwargs:
             self._utf8 = kwargs['utf8']
-            ctickit.tickit_term_set_utf8(self._term, self._utf8)
+            tickit.tickit_term_set_utf8(self._term, self._utf8)
 
         if 'input_handle' in kwargs:
             fd = kwargs['input_handle']
@@ -50,7 +51,7 @@ class Term:
             else:
                 raise TypeError('input handle not io.IOBase subclass or fd')
 
-            ctickit.tickit_term_set_input_fd(self._term, fd)
+            tickit.tickit_term_set_input_fd(self._term, fd)
 
         if 'output_handle' in kwargs:
             fd = kwargs['output_handle']
@@ -63,7 +64,7 @@ class Term:
                 raise TypeError('output handle not io.IOBase subclass or fd')
 
         if 'writer' in kwargs:
-            ctickit.tickit_set_output_func(self._term, kwargs['writer'], None)
+            tickit.tickit_set_output_func(self._term, kwargs['writer'], None)
 
         if 'on_resize' in kwargs:
             self.on_resize = kwargs['on_resize']
@@ -75,7 +76,7 @@ class Term:
             self.on_mouse = kwargs['on_mouse']
 
     def destroy(self):
-        ctickit.tickit_term_destroy(self._term)
+        tickit.tickit_term_destroy(self._term)
         self._term = None
 
     def __del__(self):
@@ -94,7 +95,7 @@ class Term:
     @property
     def input_handle(self):
         """Returns the input handle."""
-        return ctickit.tickit_term_get_input_fd(self._term)
+        return tickit.tickit_term_get_input_fd(self._term)
 
     @input_handle.setter
     def input_handle(self, fd):
@@ -103,12 +104,12 @@ class Term:
         Such file descriptors may be obtained via the fileno() method on
         io.IOBase subclasses.
         """
-        ctickit.tickit_term_set_input_fd(self._term, fd)
+        tickit.tickit_term_set_input_fd(self._term, fd)
 
     @property
     def output_handle(self):
         """Returns the output handle."""
-        return ctickit.tickit_term_get_output_fd(self._term)
+        return tickit.tickit_term_get_output_fd(self._term)
 
     @output_handle.setter
     def output_handle(self, fd):
@@ -117,15 +118,15 @@ class Term:
         Such file descriptors may be obtained via the fileno() method on
         io.IOBase subclasses.
         """
-        ctickit.tickit_term_set_output_fd(self._term, fd)
+        tickit.tickit_term_set_output_fd(self._term, fd)
 
     def set_output_buffer(self, size):
         """Sets the output buffer size."""
-        ctickit.tickit_term_set_output_buffer(self._term, size)
+        tickit.tickit_term_set_output_buffer(self._term, size)
 
     def flush(self):
         """Flushes the output buffer to the terminal."""
-        ctickit.tickit_term_flush(self._term)
+        tickit.tickit_term_flush(self._term)
 
     def _wrap_handler(self, func):
         def handler(term, type, event, data):
@@ -173,14 +174,14 @@ class Term:
 
             self._handlers.append(self._wrap(func, userdata))
 
-            self._ids.append(ctickit.tickit_term_bind_event(
+            self._ids.append(tickit.tickit_term_bind_event(
                 self._term, events, self._handlers[-1], None
             ))
 
     def unbind_event_id(self, id):
         """Unbind an event handler by its ID."""
         if id in self._ids:
-            ctickit.tickit_term_unbind_event_id(id)
+            tickit.tickit_term_unbind_event_id(id)
             self._handlers.pop(self._ids.index(id))
             self._ids.remove(id)
         else:
@@ -200,9 +201,9 @@ class Term:
         (anything, not currently usable).
         """
         if hasattr(self, '_on_resize'):
-            ctickit.tickit_term_unbind_event_id(self._on_resize_id)
+            tickit.tickit_term_unbind_event_id(self._on_resize_id)
         self._on_resize = self._wrap_handler(on_resize)
-        self._on_resize_id = ctickit.tickit_term_bind_event(
+        self._on_resize_id = tickit.tickit_term_bind_event(
             self._term, tickit.TICKIT_EV_RESIZE, self._on_resize, None
         )
 
@@ -220,9 +221,9 @@ class Term:
         (anything, not currently usable).
         """
         if hasattr(self, '_on_key'):
-            ctickit.tickit_term_unbind_event_id(self._on_key_id)
+            tickit.tickit_term_unbind_event_id(self._on_key_id)
         self._on_key = self._wrap_handler(on_key)
-        self._on_key_id = ctickit.tickit_term_bind_event(
+        self._on_key_id = tickit.tickit_term_bind_event(
             self._term, tickit.TICKIT_EV_KEY, self._on_key, None
         )
 
@@ -240,25 +241,25 @@ class Term:
         (anything, not currently usable).
         """
         if hasattr(self, '_on_mouse'):
-            ctickit.tickit_term_unbind_event_id(self._on_mouse_id)
+            tickit.tickit_term_unbind_event_id(self._on_mouse_id)
         self._on_mouse = self._wrap_handler(on_mouse)
-        self._on_mouse_id = ctickit.tickit_term_bind_event(
+        self._on_mouse_id = tickit.tickit_term_bind_event(
             self._term, tickit.TICKIT_EV_MOUSE, self._on_mouse, None
         )
 
     def refresh_size(self):
         """Reacquires the terminal size."""
-        ctickit.tickit_term_refresh_size(self._term)
+        tickit.tickit_term_refresh_size(self._term)
 
     def set_size(self, lines, cols):
         """Set the terminal size to the given number of lines & columns."""
-        ctickit.tickit_term_set_size(self._term, lines, cols)
+        tickit.tickit_term_set_size(self._term, lines, cols)
 
     def get_size(self):
         """Returns the terminal size as a 2-tuple in (lines, columns) order."""
         lines = ctypes.c_int()
         cols  = ctypes.c_int()
-        ctickit.tickit_term_get_size(
+        tickit.tickit_term_get_size(
             self._term, ctypes.byref(lines), ctypes.byref(cols)
         )
         return (lines.value, cols.value)
@@ -282,10 +283,10 @@ class Term:
         Note that under Python 3.x, the underline may be omitted.
         """
         if isinstance(text, bytes):
-            ctickit.tickit_term_print(self._term, text)
+            tickit.tickit_term_print(self._term, text)
         else:
             if self._utf8 == True:
-                ctickit.tickit_term_print(self._term, text.encode('UTF-8'))
+                tickit.tickit_term_print(self._term, text.encode('UTF-8'))
             else:
                 raise TypeError('Unicode output disabled')
 
@@ -294,11 +295,11 @@ class Term:
 
     def goto(self, lines, cols):
         """Move the cursor to the absolute coordinates specified."""
-        ctickit.tickit_term_goto(self._term, lines, cols)
+        tickit.tickit_term_goto(self._term, lines, cols)
 
     def move(self, down, right):
         """Move the cursor relative to its current position."""
-        ctickit.tickit_term_move(self._term, down, right)
+        tickit.tickit_term_move(self._term, down, right)
 
     def scrollrect(self, top, left, lines, cols, down, right):
         """Move the specified rectangle relative to its current position.
@@ -306,7 +307,7 @@ class Term:
         The first four arguments specify the dimensions of the rectangle; the
         remaining two specify the new position relative to the current one.
         """
-        return ctickit.tickit_term_scrollrect(
+        return tickit.tickit_term_scrollrect(
             self._term, top, left, lines, cols, down, right
         )
 
@@ -315,18 +316,18 @@ class Term:
         provided."""
         if newpen is None:
             newpen = pen.Pen(kwargs)
-        ctickit.tickit_term_chpen(self._term, newpen._pen)
+        tickit.tickit_term_chpen(self._term, newpen._pen)
 
     def setpen(self, newpen=None, **kwargs):
         """Set the active pen to the given pen or one with the arguments
         provided."""
         if newpen is None:
             newpen = pen.Pen(kwargs)
-        ctickit.tickit_term_setpen(self._term, newpen._pen)
+        tickit.tickit_term_setpen(self._term, newpen._pen)
 
     def clear(self):
         """Clear the terminal."""
-        ctickit.tickit_term_clear(self._term)
+        tickit.tickit_term_clear(self._term)
 
     def erasech(self, count, move=None):
         """Erase forward by the specified number of characters.
@@ -336,7 +337,7 @@ class Term:
         is None, the terminal will peform whichever of these behaviors is more
         efficient and the cursor's position will be undefined.
         """
-        ctickit.tickit_term_erasech(self._term, count, move)
+        tickit.tickit_term_erasech(self._term, count, move)
 
     def setctl(self, ctl, state=True):
         """Set the requested terminal control variable to the given state."""
@@ -353,9 +354,9 @@ class Term:
                 if not isinstance(state, bytes):
                     raise ValueError('Unicode not supported')
 
-            ctickit.tickit_term_setctl_str(self._term, ctl, state)
+            tickit.tickit_term_setctl_str(self._term, ctl, state)
         else:
-            ctickit.tickit_term_setctl_int(self._term, ctl, state)
+            tickit.tickit_term_setctl_int(self._term, ctl, state)
 
     def input_push_bytes(self, seq):
         """Push the given sequence of bytes into input.
@@ -363,7 +364,7 @@ class Term:
         This method may trigger keyboard or mouse input events."""
         if not isinstance(seq, (bytes, bytearray)):
             raise TypeError('not a byte sequence')
-        ctickit.tickit_term_push_bytes(self._term, seq, len(seq))
+        tickit.tickit_term_push_bytes(self._term, seq, len(seq))
 
     def input_readable(self):
         """Informs the terminal that the input handle may be readable.
@@ -371,15 +372,20 @@ class Term:
         This method attempts to read more input and may trigger keyboard or
         mouse input events.
         """
-        ctickit.tickit_term_input_readable(self._term)
+        tickit.tickit_term_input_readable(self._term)
 
-    def input_wait(self):
+    def input_wait(self, *args):
         """Wait until input is available and process it.
 
         This method returns after one round of input is processed and may
         trigger keyboard or mouse input events.
         """
-        ctickit.tickit_term_input_wait(self._term)
+        if len(args) < 1:
+            tickit.tickit_term_input_wait(self._term, None)
+        else:
+            sec  = int(args[0])
+            usec = int(args[1]) if len(args) > 1 else 0
+            tickit.tickit_term_input_wait(self._term, tickit.timeval(sec, usec))
 
     def input_check_timeout(self):
         """Returns a number, in seconds, indicating the next timeout.
@@ -387,7 +393,7 @@ class Term:
         If nothing is waiting, this function returns None. May trigger keyboard
         input events.
         """
-        return ctickit.tickit_term_input_check_timeout(self._term)
+        return tickit.tickit_term_input_check_timeout(self._term)
 
 Terminal = Term
 

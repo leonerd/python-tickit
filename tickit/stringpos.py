@@ -1,5 +1,5 @@
 
-from tickit.ctickit import *
+import tickit._tickit as tickit
 
 class StringPos(tickit.TickitStringPos):
     """String position counters and limits thereunto.
@@ -57,8 +57,8 @@ class StringPos(tickit.TickitStringPos):
         return self.columns
 
 def string_count(string, pos, limit):
-    return ctickit.tickit_string_count(string, pos, limit)
+    return tickit.tickit_string_count(string, pos, limit)
 
 def string_countmore(string, pos, limit):
-    return ctickit.tickit_string_countmore(string, pos, limit)
+    return tickit.tickit_string_countmore(string, pos, limit)
 

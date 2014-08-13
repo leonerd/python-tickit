@@ -6,7 +6,7 @@ try:
 except ImportError:
     from collections import Container
 
-from tickit.ctickit import *
+import tickit._tickit as tickit
 
 class Rect(Container):
     @property
@@ -69,12 +69,12 @@ class Rect(Container):
             self._rect = tickit.TickitRect()
 
             if 'lines' in kwargs:
-                ctickit.tickit_rect_init_sized(
+                tickit.tickit_rect_init_sized(
                     self._rect, kwargs['top'], kwargs['left'],
                     kwargs['lines'], kwargs['cols']
                 )
             else:
-                ctickit.tickit_rect_init_bounded(
+                tickit.tickit_rect_init_bounded(
                     self._rect, kwargs['top'], kwargs['left'],
                     kwargs['right'], kwargs['bottom']
                 )
@@ -88,28 +88,28 @@ class Rect(Container):
 
         rect = tickit.TickitRect()
 
-        ctickit.tickit_rect_init_bounded(rect, top, left, right, bottom)
+        tickit.tickit_rect_init_bounded(rect, top, left, right, bottom)
 
         return rect
 
     def add(self, other):
         rect_arr = tickit.TickitRect * 3
         rects = rect_arr()
-        count = ctickit.tickit_rect_add(rects, self._rect, other._rect)
+        count = tickit.tickit_rect_add(rects, self._rect, other._rect)
 
         return (Rect(obj=rects[x]) for x in range(count))
 
     def subtract(self, a, b):
         rect_arr = tickit.TickitRect * 4
         rects = rect_arr()
-        count = ctickit.tickit_rect_subtract(rects, self._rect, other._rect)
+        count = tickit.tickit_rect_subtract(rects, self._rect, other._rect)
 
         return (Rect(obj=rects[x]) for x in range(count))
 
     def intersect(self, other):
         rect = tickit.TickitRect()
 
-        intersects = ctickit.tickit_rect_intersect(rect, self._rect, other._rect)
+        intersects = tickit.tickit_rect_intersect(rect, self._rect, other._rect)
 
         if intersects:
             return Rect(obj=rect)
@@ -122,7 +122,7 @@ class Rect(Container):
         return False
 
     def contains(self, other):
-        return ctickit.tickit_rect_contains(self._rect, other._rect)
+        return tickit.tickit_rect_contains(self._rect, other._rect)
 
     def __contains__(self, other):
         return self.contains(other)

@@ -1,5 +1,5 @@
 
-from tickit.ctickit import *
+import tickit._tickit as tickit
 
 try:
     from collections.abc import MutableMapping
@@ -8,7 +8,7 @@ except ImportError:
 
 def lookup_attr(name):
     attr = bytes(name, 'ascii')
-    return ctickit.tickit_pen_lookup_attr(attr)
+    return tickit.tickit_pen_lookup_attr(attr)
 
 class Pen(MutableMapping):
     """An object for storing terminal attributes.
@@ -20,7 +20,7 @@ class Pen(MutableMapping):
     methods (the usual Mapping methods are available).
     """
     def __init__(self, **kwargs):
-        self._pen = ctickit.tickit_pen_new()
+        self._pen = tickit.tickit_pen_new()
         self._attrs = {}
 
         self._events = {}
@@ -45,7 +45,7 @@ class Pen(MutableMapping):
         if attr == -1:
             raise KeyError('invalid attribute')
 
-        return ctickit.tickit_pen_has_attr(self._pen, attr)
+        return tickit.tickit_pen_has_attr(self._pen, attr)
 
     def getattrs(self):
         """Returns a dict of the currently-set attributes."""
@@ -62,13 +62,13 @@ class Pen(MutableMapping):
         attr = lookup_attr(name)
         if attr == -1:
             raise KeyError('invalid attribute')
-        type = ctickit.tickit_pen_attrtype(attr)
+        type = tickit.tickit_pen_attrtype(attr)
         if type == AttributeType.color:
-            func = ctickit.tickit_pen_get_colour_attr
+            func = tickit.tickit_pen_get_colour_attr
         elif type == AttributeType.bool:
-            func = ctickit.tickit_pen_get_bool_attr
+            func = tickit.tickit_pen_get_bool_attr
         elif type == AttributeType.int:
-            func = ctickit.tickit_pen_get_int_attr
+            func = tickit.tickit_pen_get_int_attr
 
         return func(self._pen, attr)
 
@@ -88,13 +88,13 @@ class Pen(MutableMapping):
         attr = lookup_attr(name)
         if attr == -1:
             raise KeyError('invalid attribute')
-        type = ctickit.tickit_pen_attrtype(attr)
+        type = tickit.tickit_pen_attrtype(attr)
         if type == AttributeType.color:
-            func = ctickit.tickit_pen_set_colour_attr
+            func = tickit.tickit_pen_set_colour_attr
         elif type == AttributeType.bool:
-            func = ctickit.tickit_pen_set_bool_attr
+            func = tickit.tickit_pen_set_bool_attr
         elif type == AttributeType.int:
-            func = ctickit.tickit_pen_set_int_attr
+            func = tickit.tickit_pen_set_int_attr
 
         self._attrs[name] = value
 
@@ -111,7 +111,7 @@ class Pen(MutableMapping):
 
         del self._attrs[name]
 
-        ctickit.tickit_pen_clear_attr(self._pen, attr)
+        tickit.tickit_pen_clear_attr(self._pen, attr)
 
     def chattrs(self, attrs):
         """Changes attributes from the given dict."""
@@ -154,7 +154,7 @@ class Pen(MutableMapping):
             self._events[event] = []
 
         func = self._wrap_handler(func, data)
-        id = ctickit.tickit_bind_event(self._pen, event, func, None)
+        id = tickit.tickit_bind_event(self._pen, event, func, None)
 
         self._events[event].append((func, id))
 
@@ -165,7 +165,7 @@ class Pen(MutableMapping):
         for event in self._events.keys():
             for handler in self._events[event]:
                 if handler[1] == id:
-                    ctickit.tickit_pen_unbind_event_id(self._pen, id)
+                    tickit.tickit_pen_unbind_event_id(self._pen, id)
                     self._events[event].remove(handler)
                     return
 
@@ -173,7 +173,7 @@ class Pen(MutableMapping):
 
     def __copy__(self):
         other = Pen()
-        ctickit.tickit_pen_copy(other._pen, self._pen)
+        tickit.tickit_pen_copy(other._pen, self._pen)
         return other
 
 class Attribute:
