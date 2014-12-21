@@ -291,7 +291,7 @@ class Term:
                 raise TypeError('Unicode output disabled')
 
     if sys.version_info.major >= 3:
-        print = print_
+        setattr(Term, "print", print_)
 
     def goto(self, lines, cols):
         """Move the cursor to the absolute coordinates specified."""
