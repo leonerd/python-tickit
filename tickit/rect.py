@@ -11,7 +11,7 @@ import tickit._tickit as tickit
 class Rect(Container):
     @property
     def top(self):
-        return self._rect.top.value
+        return self._rect.top
 
     @top.setter
     def top(self, value):
@@ -21,7 +21,7 @@ class Rect(Container):
 
     @property
     def left(self):
-        return self._rect.left.value
+        return self._rect.left
 
     @left.setter
     def left(self, value):
@@ -31,7 +31,7 @@ class Rect(Container):
 
     @property
     def lines(self):
-        return self._rect.lines.value
+        return self._rect.lines
 
     @lines.setter
     def lines(self, value):
@@ -41,7 +41,7 @@ class Rect(Container):
 
     @property
     def cols(self):
-        return self._rect.cols.value
+        return self._rect.cols
 
     @cols.setter
     def cols(self, value):
