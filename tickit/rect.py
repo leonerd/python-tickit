@@ -57,6 +57,14 @@ class Rect(Container):
     def bottom(self):
         return self.top + self.lines
 
+    def linerange(self, start=None, stop=None):
+        if start is None or start < self.top:
+            start = self.top
+        if stop is None or stop >= self.bottom:
+            stop = self.bottom - 1
+
+        return range(start, stop + 1)
+
     def __init__(self, obj=None, **kwargs):
         if obj is not None:
             if isinstance(obj, tickit.TickitRect):

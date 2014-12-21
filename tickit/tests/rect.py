@@ -19,9 +19,9 @@ class RectTest(unittest.TestCase):
         self.assertEqual(self.rect.cols,   20)
         self.assertEqual(self.rect.bottom, 12)
         self.assertEqual(self.rect.right,  30)
-    @unittest.skip
+
     def test_linerange(self):
-        self.assertEqual(self.rect.linerange, list(range(5, 12)))
+        self.assertEqual(self.rect.linerange(), list(range(5, 12)))
         self.assertEqual(self.rect.linerange(8), list(range(8, 12)))
         self.assertEqual(self.rect.linerange(stop=9), list(range(5, 10)))
         self.assertEqual(self.rect.linerange(2, 20), list(range(5, 12)))
